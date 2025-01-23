@@ -1,0 +1,41 @@
+
+################ Data cleaning the Iris dataset #################
+from sklearn import datasets
+import pandas as pd
+
+# load iris dataset
+iris = datasets.load_iris()
+# Since this is a bunch, create a dataframe
+iris_df=pd.DataFrame(iris.data)
+iris_df['class']=iris.target
+
+iris_df.columns=['sepal_len', 'sepal_wid', 'petal_len', 'petal_wid', 'class']
+
+# Find the number and mean of missing data
+missing_count = iris_df.isnull().sum()  # Number of missing values
+missing_mean = iris_df.isnull().mean()  # Mean of missing values
+
+
+
+# Print missing data info
+print("Missing data count:\n", missing_count)
+print("\nMissing data mean:\n", missing_mean)
+
+cleaned_data = iris_df.dropna(how="all", inplace=True) 
+# Remove any empty rows
+cleaned_data = iris_df.dropna(how="all", inplace=True)
+
+iris_X=iris_df.iloc[:5,[0,1,2,3]]
+print(iris_X)
+
+### TASK2: Here - Write a short readme to explain above code and how we can calculate the corrolation amoung featuers with description
+
+correlation_matrix = iris_df.iloc[:, :4].corr()  # Only consider feature columns
+print("Correlation Matrix:\n", correlation_matrix)
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+sns.heatmap(correlation_matrix, annot=True, cmap="coolwarm")
+plt.title("Feature Correlation Heatmap")
+plt.show()
